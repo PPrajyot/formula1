@@ -1,0 +1,9 @@
+{
+	"name": "pract-bwt",
+	"location": "centralindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "6dbc2be8-6d2f-4e8e-9cc8-5a0f3a01fd58",
+		"tenantId": "ee9fe2c9-dc13-45f7-a3d6-4277e7fd212d"
+	}
+}

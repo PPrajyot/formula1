@@ -1,0 +1,98 @@
+{
+	"name": "pl_formula1_ingest",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get_formula1_foldernm",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "Json1",
+						"type": "DatasetReference",
+						"parameters": {
+							"param_window_end_date": {
+								"value": "@pipeline().parameters.param_window_end_date",
+								"type": "Expression"
+							}
+						}
+					},
+					"fieldList": [
+						"exists"
+					],
+					"storeSettings": {
+						"type": "AzureBlobFSReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "JsonReadSettings"
+					}
+				}
+			},
+			{
+				"name": "If_condtn",
+				"type": "IfCondition",
+				"dependsOn": [
+					{
+						"activity": "Get_formula1_foldernm",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"expression": {
+						"value": "@activity('Get_formula1_foldernm').output.exists",
+						"type": "Expression"
+					},
+					"ifTrueActivities": [
+						{
+							"name": "ingest_all_file",
+							"type": "DatabricksNotebook",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"notebookPath": "/formula1/Ingestion/0.Ingest all files",
+								"baseParameters": {
+									"pass_file_date": {
+										"value": "@formatDateTime(pipeline().parameters.param_window_end_date,'yyyy-MM-dd')",
+										"type": "Expression"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "ls_databricks_formula1",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"param_window_end_date": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2024-04-13T09:40:42Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
