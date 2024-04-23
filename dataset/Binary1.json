@@ -1,0 +1,30 @@
+{
+	"name": "Binary1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureDataLakeStorage_pract",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"file_name_sink": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": {
+					"value": "@dataset().file_name_sink",
+					"type": "Expression"
+				},
+				"folderPath": {
+					"value": "@formatDateTime(utcnow(), 'yyyy-dd-MM')",
+					"type": "Expression"
+				},
+				"fileSystem": "raw"
+			}
+		}
+	}
+}
