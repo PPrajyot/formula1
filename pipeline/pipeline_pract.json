@@ -39,29 +39,13 @@
 				"inputs": [
 					{
 						"referenceName": "RestResource1",
-						"type": "DatasetReference",
-						"parameters": {
-							"ds_param_file_name": {
-								"value": "@pipeline().parameters.file_name",
-								"type": "Expression"
-							}
-						}
+						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
 						"referenceName": "Json2",
-						"type": "DatasetReference",
-						"parameters": {
-							"file_name_sink": {
-								"value": "@pipeline().parameters.file_name",
-								"type": "Expression"
-							},
-							"directory_name": {
-								"value": "@concat(pipeline().parameters.file_name,'/',formatDateTime(utcnow(),'yyyy-MM-dd'))",
-								"type": "Expression"
-							}
-						}
+						"type": "DatasetReference"
 					}
 				]
 			}
